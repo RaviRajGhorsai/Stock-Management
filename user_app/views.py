@@ -43,7 +43,7 @@ class CreateUserView(viewsets.ViewSet):
     role = None  # to be defined in subclasses
     
     def create(self, request, *args, **kwargs):
-        if not request.user.is_admin():
+        if not request.user.is_admin_user():
             return JsonResponse({'status': 'error', 'message': 'Unauthorized'}, status=403)
         
         data = request.data

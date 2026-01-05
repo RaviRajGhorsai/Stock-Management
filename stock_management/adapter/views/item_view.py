@@ -19,7 +19,7 @@ class ItemView(viewsets.ViewSet):
         
         user = self.get_user(request)
         
-        if not (user.is_admin() or user.is_staff()):
+        if not (user.is_admin_user() or user.is_staff_user()):
             return JsonResponse({'status': 'error', 'message': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
         
         tenant = user.tenant
@@ -33,7 +33,7 @@ class ItemView(viewsets.ViewSet):
         
         user = self.get_user(request)
         
-        if not (user.is_admin() or user.is_staff()):
+        if not (user.is_admin_user() or user.is_staff_user()):
             return JsonResponse({'status': 'error', 'message': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
         
         tenant = user.tenant
@@ -50,7 +50,7 @@ class ItemView(viewsets.ViewSet):
         
         user = self.get_user(request)
         
-        if not (user.is_admin() or user.is_staff()):
+        if not (user.is_admin_user() or user.is_staff_user()):
             return JsonResponse({'status': 'error', 'message': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
         
         

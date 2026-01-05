@@ -25,13 +25,13 @@ class User(AbstractUser):
 
     phone = models.CharField(max_length=20, blank=True, null=True)
 
-    def is_admin(self):
+    def is_admin_user(self):
         return self.role == 'admin'
 
-    def is_staff(self):
+    def is_staff_user(self):
         return self.role == 'staff'
 
-    def is_customer(self):
+    def is_customer_user(self):
         return self.role == 'customer'
 
     def save(self, *args, **kwargs):

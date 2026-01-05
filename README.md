@@ -1,6 +1,6 @@
 # Stock Management Multi-Tenant System
 
-A **multi-tenant stock management web application** built with **Django**, designed for SaaS-style usage. The project implements role-based access control with a multi-schema architecture using **django-tenants**, allowing multiple organizations (tenants) to use the system securely with isolated data.
+A **multi-tenant stock management web application**(practice project) built with **Django**, designed for SaaS-style usage. The project implements role-based access control with a multi-schema architecture using **django-tenants**, allowing multiple organizations (tenants) to use the system securely with isolated data.
 
 ---
 
@@ -66,4 +66,5 @@ This project is structured as a **multi-tenant SaaS application** with three use
 ---
 
 ## **Project Structure**
+
 

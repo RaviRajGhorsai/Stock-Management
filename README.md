@@ -65,6 +65,6 @@ This project is structured as a **multi-tenant SaaS application** with three use
 
 ---
 
-## **Project Structure**
+
 
 

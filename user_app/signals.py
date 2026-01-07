@@ -1,14 +1,14 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import User
+from .models import AdminUser 
 from tenants.models import Client, Domain
 from django.db import transaction
 from django_tenants.utils import schema_context
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=AdminUser)
 def create_tenant_for_admin(sender, instance, created, **kwargs):
     
-    if created and instance.is_admin():
+    if created and instance.is_admin_user():
         schema_name = instance.username.lower()
         username = instance.username
         
@@ -26,5 +26,5 @@ def create_tenant_for_admin(sender, instance, created, **kwargs):
             )
 
             # Assign tenant to user WITHOUT triggering post_save again
-            User.objects.filter(id=instance.id).update(tenant=tenant)
-        
+            AdminUser.objects.filter(id=instance.id).update(tenant=tenant)
+              

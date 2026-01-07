@@ -1,5 +1,6 @@
 from rest_framework.routers import DefaultRouter
-from .views import CreateStaffView, CreateCustomerView, AdminStaffLoginView
+from user_app.views.admin_user_view import CreateStaffView, CreateCustomerView
+from user_app.auth.admin_login_view import AdminStaffLoginView
 
 admin_router = DefaultRouter(trailing_slash=False)
 admin_router.register(r'login', AdminStaffLoginView, basename='admin_staff_login')

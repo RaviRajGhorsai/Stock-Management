@@ -18,7 +18,7 @@ class ItemView(viewsets.ViewSet):
     authentication_classes = [JWTAuthentication]  
     permission_classes = [IsAuthenticated]       
 
-    def list(self, request):
+    def list(self, request, *args, **kwargs):
         
         user = request.user
         
@@ -27,12 +27,12 @@ class ItemView(viewsets.ViewSet):
             return Response({'status': 'error', 'message': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
         
         tenant = user.tenant
-        
-        items = list_items_for_tenant(tenant)
-        serializer = ItemSerializer(items, many=True)
-        return Response({"data": serializer.data}, status=status.HTTP_200_OK)
     
-    def retrieve(self, request, pk=None):
+        items_data = list_items_for_tenant(tenant)
+        
+        return Response({"data": items_data}, status=status.HTTP_200_OK)
+    
+    def retrieve(self, request, pk=None, *args, **kwargs):
         
         user = request.user
         
@@ -48,7 +48,7 @@ class ItemView(viewsets.ViewSet):
         serializer = ItemSerializer(item)
         return Response({"data": serializer.data}, status=status.HTTP_200_OK)
     
-    def create(self, request):
+    def create(self, request, *args, **kwargs):
         
         user = request.user
         

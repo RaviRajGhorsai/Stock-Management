@@ -8,7 +8,7 @@ from user_app.services.auth_service import login_user_service
 # Create your views here.
 class AdminStaffLoginView(viewsets.ViewSet):
     
-    def create(self, request):
+    def create(self, request, *args, **kwargs):
         
         serializer =  UserLoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

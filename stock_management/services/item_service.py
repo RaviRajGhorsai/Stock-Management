@@ -9,7 +9,8 @@ def list_items_for_tenant(tenant):
     with schema_context(tenant.schema_name):
         items = Item.objects.all()
         
-        return items
+        serializer = ItemSerializer(items, many=True)
+        return serializer.data 
     
 def get_item_for_tenant(tenant, id=None):
     with schema_context(tenant.schema_name):

@@ -1,6 +1,6 @@
 
 
-def create_user(user_model, data, tenant=None, role=None):
+def create_user_service(user_model, data, tenant=None, role=None):
     
     
     if role not in ('admin', 'staff', 'customer'):

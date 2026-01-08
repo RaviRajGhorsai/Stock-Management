@@ -9,6 +9,5 @@ wheels/
 # Virtual environments
 .venv
 logos/
-.dockerignore
 docker-compose.yml
 .env

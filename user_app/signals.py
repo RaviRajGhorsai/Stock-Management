@@ -1,6 +1,6 @@
-from django.db.models.signals import post_save, post_migrate
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import AdminUser, BaseUser
+from .models import AdminUser
 from tenants.models import Client, Domain
 from django.db import transaction
 from django_tenants.utils import schema_context
@@ -20,7 +20,7 @@ def create_tenant_for_admin(sender, instance, created, **kwargs):
 
             # Create the domain
             Domain.objects.create(
-                domain=f"{schema_name}.stock-management-j34y.onrender.com",
+                domain=f"{schema_name}.stock-management-1-1ah9.onrender.com",
                 tenant=tenant,
                 is_primary=True
             )
@@ -28,16 +28,3 @@ def create_tenant_for_admin(sender, instance, created, **kwargs):
             # Assign tenant to user WITHOUT triggering post_save again
             AdminUser.objects.filter(id=instance.id).update(tenant=tenant)
               
-@receiver(post_migrate, sender=BaseUser)
-def create_default_public_tenant(sender, **kwargs):
-    
-    if not Client.objects.filter(schema_name='public').exists():
-        with schema_context('public'), transaction.atomic():
-            tenant = Client(schema_name='public', name='public tenant')
-            tenant.save()
-
-            Domain.objects.create(
-                domain='public.localhoststock-management-j34y.onrender.com',
-                tenant=tenant,
-                is_primary=True
-            )

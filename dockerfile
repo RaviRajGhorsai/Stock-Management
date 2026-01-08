@@ -31,5 +31,5 @@ EXPOSE 8800
 # Entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
 
-# Default command
+# Default command to start Gunicorn
 CMD ["uv", "run", "gunicorn", "Stock.wsgi:application", "--bind", "0.0.0.0:8800"]

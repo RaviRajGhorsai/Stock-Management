@@ -20,7 +20,7 @@ def create_tenant_for_admin(sender, instance, created, **kwargs):
 
             # Create the domain
             Domain.objects.create(
-                domain=f"{schema_name}.localhost",
+                domain=f"{schema_name}.stock-management-j34y.onrender.com",
                 tenant=tenant,
                 is_primary=True
             )
@@ -37,7 +37,7 @@ def create_default_public_tenant(sender, **kwargs):
             tenant.save()
 
             Domain.objects.create(
-                domain='public.localhost',
+                domain='public.localhoststock-management-j34y.onrender.com',
                 tenant=tenant,
                 is_primary=True
             )

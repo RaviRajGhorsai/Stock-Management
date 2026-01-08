@@ -22,12 +22,12 @@ jobs:
 
       # 3️⃣ Build Docker image
       - name: Build Docker image
-        run: docker build -t Stock-management:latest .
+        run: docker build -t stock-management:latest .
 
       # 4️⃣ Push Docker image to Docker Hub
       - name: Push Docker image
         run: |
-          docker tag Stock-management:latest graviraj/stock-management:latest
+          docker tag stock-management:latest graviraj/stock-management:latest
           docker push graviraj/stock-management:latest
 
       # 5️⃣ Trigger Render Deploy

@@ -34,7 +34,4 @@ jobs:
           SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
         run: |
           echo "Triggering Render deploy..."
-          curl -X POST \
-            -H "Authorization: Bearer $RENDER_API_KEY" \
-            -H "Accept: application/json" \
-            https://api.render.com/deploy/srv-$SERVICE_ID
+          curl -X POST "https://api.render.com/deploy/srv-$SERVICE_ID?key=$RENDER_API_KEY"

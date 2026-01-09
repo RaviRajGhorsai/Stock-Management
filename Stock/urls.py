@@ -21,7 +21,7 @@ from django.conf import settings
 from Stock.views import ping
 
 urlpatterns = [
-    path('/', ping, name='ping'),
+    path('', ping, name='ping'),
     path('admin/', admin.site.urls),
     path('tenants/<schema_name>/', include([
         path('api/', include('user_app.urls')),

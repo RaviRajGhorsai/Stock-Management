@@ -10,7 +10,7 @@ from stock_management.services.item_service import (
     get_item_for_tenant,
     create_item_for_tenant
 )
-from stock_management.services.auth_service import check_user_role
+from stock_management.apis.v1.auth.auth_service import check_user_role
 
 
 # Need to specify which tenant's schema to use based on the authenticated user (line 27)

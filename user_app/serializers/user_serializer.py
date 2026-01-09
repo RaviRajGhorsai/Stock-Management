@@ -3,6 +3,7 @@ from user_app.models import (
     StaffUser,
     CustomerUser
 ) 
+
 from rest_framework import serializers
 
 class AdminUserSerializer(serializers.ModelSerializer):

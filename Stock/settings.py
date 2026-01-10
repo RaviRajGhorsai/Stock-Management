@@ -124,10 +124,10 @@ DATABASES = {
         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
         "HOST": os.getenv("DB_HOST"),
         "PORT": os.getenv("DB_PORT"),
-        # "OPTIONS": {
-        #     "sslmode": "require",
-        #     "channel_binding": "require"
-        # } 
+        "OPTIONS": {
+            "sslmode": "require",
+            "channel_binding": "require"
+        } 
     }
 }
 

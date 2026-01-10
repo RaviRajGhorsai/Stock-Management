@@ -1,12 +1,20 @@
+from pathlib import Path
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import AdminUser
+from user_app.models import AdminUser
 from tenants.models import Client, Domain
 from django.db import transaction
 from django_tenants.utils import schema_context
+from dotenv import load_dotenv
+import os
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 
 @receiver(post_save, sender=AdminUser)
 def create_tenant_for_admin(sender, instance, created, **kwargs):
+    
+    domain_name = os.getenv("TENANT_DOMAIN")
     
     if created and instance.is_admin_user():
         schema_name = instance.username.lower()
@@ -20,7 +28,7 @@ def create_tenant_for_admin(sender, instance, created, **kwargs):
 
             # Create the domain
             Domain.objects.create(
-                domain=f"{schema_name}.stock-management-1-1ah9.onrender.com",
+                domain=f"{schema_name}.{domain_name}",
                 tenant=tenant,
                 is_primary=True
             )

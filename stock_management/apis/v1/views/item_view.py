@@ -10,55 +10,34 @@ from stock_management.services.item_service import (
     get_item_for_tenant,
     create_item_for_tenant
 )
-from stock_management.apis.v1.auth.auth_service import check_user_role
-
+from stock_management.apis.v1.auth.permissions import (
+    IsAdminOrStaffUser
+)
 
 # Need to specify which tenant's schema to use based on the authenticated user (line 27)
 class ItemView(viewsets.ViewSet):
     authentication_classes = [JWTAuthentication]  
-    permission_classes = [IsAuthenticated]       
+    permission_classes = [IsAuthenticated, IsAdminOrStaffUser]       
 
     def list(self, request, *args, **kwargs):
-        
-        user = request.user
-        
-        auth_response = check_user_role(user)
-        if auth_response is None:
-            return Response({'status': 'error', 'message': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
-        
-        tenant = user.tenant
     
-        items_data = list_items_for_tenant(tenant)
+        items_data = list_items_for_tenant()
         
         return Response({"data": items_data}, status=status.HTTP_200_OK)
     
     def retrieve(self, request, pk=None, *args, **kwargs):
         
-        user = request.user
-        
-        auth_response = check_user_role(user)
-        if auth_response is None:
-            return Response({'status': 'error', 'message': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
-        
-        tenant = user.tenant
-        
-        item = get_item_for_tenant(tenant, id=pk)
+        item = get_item_for_tenant(id=pk)
         if item is None:
             return Response({'status': 'error', 'message': 'Item not found'}, status=status.HTTP_404_NOT_FOUND)
+        
         serializer = ItemSerializer(item)
         return Response({"data": serializer.data}, status=status.HTTP_200_OK)
     
     def create(self, request, *args, **kwargs):
         
-        user = request.user
-        
-        auth_response = check_user_role(user)
-        if auth_response is None:
-            return Response({'status': 'error', 'message': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
-        
-        tenant = user.tenant
-        
-        item = create_item_for_tenant(tenant, request.data)
+        item = create_item_for_tenant(request.data)
         serializer = ItemSerializer(item)
+        
         return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
         

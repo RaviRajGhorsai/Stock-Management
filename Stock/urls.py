@@ -20,12 +20,17 @@ from django.conf.urls.static import static
 from django.conf import settings
 from Stock.views import ping
 
+from django.http import HttpResponse
+
+def test_view(request):
+    return HttpResponse("Django is working!")
+
 urlpatterns = [
+    path('test/', test_view),
     path('', ping, name='ping'),
     path('admin/', admin.site.urls),
-    path('tenants/<schema_name>/', include([
-        path('api/', include('user_app.urls')),
-        path('api/stock/', include('stock_management.urls')),
-    ])),
-]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
-  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('api/', include('user_app.urls')),
+]  
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

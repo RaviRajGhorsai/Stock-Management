@@ -58,15 +58,18 @@ TENANT_MODEL = "tenants.Client"
 
 TENANT_DOMAIN_MODEL = "tenants.Domain"
 
-TENANT_SUBFOLDER_PREFIX = 'tenants'
+# APPEND_SLASH = False
+
+# TENANT_SUBFOLDER_PREFIX = 'tenants'
 
 MIDDLEWARE = [
+   
     'django_tenants.middleware.main.TenantMainMiddleware',
+    'Stock.middleware.tenant_urlconf_middleware.TenantURLConfMiddleware',
     'django.middleware.security.SecurityMiddleware',
-   "whitenoise.middleware.WhiteNoiseMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     
-    
-    'django_tenants.middleware.TenantSubfolderMiddleware',
+    # 'django_tenants.middleware.TenantSubfolderMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,7 +78,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Stock.urls'
+PUBLIC_SCHEMA_URLCONF = "Stock.urls"
+ROOT_URLCONF = "Stock.urls"
+TENANT_URLCONF = "Stock.urls_tenant"
+
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
+
+# Add this
+FORCE_SCRIPT_NAME = None 
+
 
 TEMPLATES = [
     {
@@ -111,10 +124,10 @@ DATABASES = {
         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
         "HOST": os.getenv("DB_HOST"),
         "PORT": os.getenv("DB_PORT"),
-        "OPTIONS": {
-            "sslmode": "require",
-            "channel_binding": "require"
-        } 
+        # "OPTIONS": {
+        #     "sslmode": "require",
+        #     "channel_binding": "require"
+        # } 
     }
 }
 

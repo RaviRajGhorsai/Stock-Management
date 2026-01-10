@@ -33,7 +33,7 @@ class UserAdmin(BaseUserAdmin):
                 'active_duration',
                 'sales_on',
                 'role',
-                'logo_image',
+                'image',
                 'password1',
                 'password2',
             ),

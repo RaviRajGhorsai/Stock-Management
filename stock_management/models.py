@@ -1,31 +1,7 @@
 from django.db import models
-from user_app.models import BaseUser
-from tenants.models import Client
+from user_app.models import CustomerUser
 
 # Create your models here.
-
-class StaffUser(BaseUser):
-    
-    GENDER_CHOICES = (
-        ('male', 'Male'),
-        ('female', 'Female'),
-        ('other', 'Other'),
-    )
-    
-    gender = models.CharField(max_length=10,
-                              choices=GENDER_CHOICES,
-                              )
-    nid_citizenship_number = models.CharField(max_length=20, null=True, blank=True)
-    salary_amount = models.DecimalField(max_digits=12, decimal_places=2,)
-    hire_date = models.DateField(null=True, blank=True)
-    shift_start = models.TimeField(null=True, blank=True)
-    shift_end = models.TimeField(null=True, blank=True)
-    
-class CustomerUser(BaseUser):
-    customer_reg_no = models.CharField(max_length=20, null=True, blank=True)
-    opening_balance = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
-    due_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
-    
 
 class Item(models.Model):
     

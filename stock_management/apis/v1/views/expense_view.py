@@ -14,31 +14,33 @@ from stock_management.services.expense_service import (
     create_expense_for_tenant
 )
 
+from django_tenants.utils import schema_context
+
 class ExpenseView(viewsets.ViewSet):
     
     authentication_classes = [JWTAuthentication]  
     permission_classes = [IsAuthenticated, IsAdminOrStaffUser]
     
     def list(self, request, *args, **kwargs):
+        with schema_context(request.user.tenant.schema_name):
+            expenses = list_expenses_for_tenant()
+            
+            return Response({"data": expenses}, status=status.HTTP_200_OK)
         
-        expenses = list_expenses_for_tenant()
-        
-        return Response({"data": expenses}, status=status.HTTP_200_OK)
-    
     def retrieve(self, request, pk=None, *args, **kwargs):
-        
-        expense = get_expense_for_tenant(id=pk)
-        if expense is None:
-            return Response({'status': 'error', 'message': 'Expense not found'}, status=status.HTTP_404_NOT_FOUND)
-        
-        serializer = ExpenseSerializer(expense)
-        return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+        with schema_context(request.user.tenant.schema_name):
+            expense = get_expense_for_tenant(id=pk)
+            if expense is None:
+                return Response({'status': 'error', 'message': 'Expense not found'}, status=status.HTTP_404_NOT_FOUND)
+            
+            serializer = ExpenseSerializer(expense)
+            return Response({"data": serializer.data}, status=status.HTTP_200_OK)
     
     def create(self, request, *args, **kwargs):
+        with schema_context(request.user.tenant.schema_name):
+            expense = create_expense_for_tenant(request.data)
+            
+            serializer = ExpenseSerializer(expense)
+            
+            return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
         
-        expense = create_expense_for_tenant(request.data)
-        
-        serializer = ExpenseSerializer(expense)
-        
-        return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
-    

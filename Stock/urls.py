@@ -30,6 +30,7 @@ urlpatterns = [
     path('', ping, name='ping'),
     path('admin/', admin.site.urls),
     path('api/', include('user_app.urls')),
+    path("api/stock/", include("stock_management.urls")),
 ]  
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -2,11 +2,11 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import status
 
-from stock_management.serializers.auth_serializer import UserLoginSerializer
-from stock_management.apis.v1.auth.auth_service import login_user_service
+from user_app.serializers.auth_serializer import UserLoginSerializer
+from user_app.apis.v1.auth.auth_service import login_user_service
 
 # Create your views here.
-class AdminLoginView(viewsets.ViewSet):
+class UserLoginView(viewsets.ViewSet):
     
     def create(self, request, *args, **kwargs):
         

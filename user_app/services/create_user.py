@@ -1,11 +1,10 @@
 from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
 
-def create_admin_user_service(user_model, data, role=None):
+def create_user_service(user_model, data, role=None, tenant=None):
     
-    
-    if role != 'admin':
-        raise ValueError("Role must be 'admin' ")
+    if role not in ['admin', 'superadmin', 'staff', 'customer']:
+        raise ValueError("Role must be specified ")
 
     username = data.get('username')
 
@@ -20,7 +19,10 @@ def create_admin_user_service(user_model, data, role=None):
     
     with transaction.atomic():
         
-        user = user_model(**data, role=role)
+        user = user_model(**data, 
+                          role=role,
+                          tenant=tenant
+                          )
         user.set_password(password)
         user.save()
         

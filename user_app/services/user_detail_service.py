@@ -1,5 +1,5 @@
 
-from stock_management.models import (
+from user_app.models import (
     StaffUser,
     CustomerUser
 )

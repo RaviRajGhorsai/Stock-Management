@@ -15,6 +15,8 @@ from datetime import timedelta
 import os
 from dotenv import load_dotenv
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
  
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,37 +37,58 @@ DEBUG = os.getenv('DEBUG', '0') == '1'
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS if host.strip()]
 
+# ALLOWED_HOSTS = ['.localhost', 'localhost', '127.0.0.1']
+
 SHARED_APPS = [
     'django_tenants',
-    'user_app.apps.UserAppConfig',  
-    'tenants',         
+
+    # Tenant infrastructure
+    'tenants',
+
+    # Users live in public schema
+    
+
+    # Django core (shared tables)
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Cross-origin support
     'corsheaders',
+    
+    'user_app.apps.UserAppConfig',
 ]
 
+
 TENANT_APPS = [
+    # Required for permissions inside tenant schemas
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+
+    # Optional but recommended
+    'django.contrib.sessions',
+
+    # Your tenant business logic
     'stock_management',
 ]
 
-INSTALLED_APPS = SHARED_APPS + TENANT_APPS
+
+INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
 
 TENANT_MODEL = "tenants.Client"
 
 TENANT_DOMAIN_MODEL = "tenants.Domain"
 
-# APPEND_SLASH = False
 
-# TENANT_SUBFOLDER_PREFIX = 'tenants'
+
 
 MIDDLEWARE = [
-   
+    # 'Stock.middleware.middleware.DebugTenantMiddleware',
     'django_tenants.middleware.main.TenantMainMiddleware',
-    'Stock.middleware.tenant_urlconf_middleware.TenantURLConfMiddleware',
+    
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     
@@ -78,16 +101,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-PUBLIC_SCHEMA_URLCONF = "Stock.urls"
+TENANT_PORT_STRIPPING = True
+
+
 ROOT_URLCONF = "Stock.urls"
-TENANT_URLCONF = "Stock.urls_tenant"
+PUBLIC_SCHEMA_URLCONF = "Stock.urls"
+# TENANT_URLCONF = "Stock.urls_tenant"
+
+# PUBLIC_BASE_URL = "localhost:8000"
 
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
-# Add this
-FORCE_SCRIPT_NAME = None 
 
 
 TEMPLATES = [
